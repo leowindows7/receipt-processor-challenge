@@ -7,11 +7,9 @@ import (
 
 func ProcessRecipts(c *fiber.Ctx) error {
 
-	receiptStruct := models.Receipt{}
-	c.BodyParser(&receiptStruct)
-	id, err := models.ReceiptsProcessor()
+	id, err := models.ReceiptsProcessor(c)
 	if err != nil {
-		return c.JSON(fiber.Map{"err": err.Error()})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err})
 	}
 	return c.JSON(fiber.Map{"id": id})
 
