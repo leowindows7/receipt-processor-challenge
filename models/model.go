@@ -1,7 +1,9 @@
 package models
 
 import (
+	"errors"
 	"fmt"
+	"reflect"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -23,14 +25,17 @@ type Receipt struct {
 var receiptsMap map[string]Receipt
 
 func checkPayload(receipt *Receipt) error {
+	receiptStruct := reflect.Indirect(reflect.ValueOf(receipt))
+	types := receiptStruct.Type()
+	numFields := receiptStruct.NumField()
+	for i := 0; i < numFields; i++ {
+		if receiptStruct.Field(i).Interface() == "" {
 
-	// numFields := value.NumField()
-	fmt.Println(receipt.PurchaseTime)
-	// structType := value.Type()
-	// for i := 0; i < numFields; i++ {
-	// 	field := structType.Field(i)
-	// 	fmt.Println(field.Name)
-	// }
+			return errors.New("please check your payload, missing required fields")
+		}
+
+		fmt.Println(types.Field(i).Name, receiptStruct.Field(i))
+	}
 
 	return nil
 }
@@ -39,9 +44,12 @@ func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 	receipt := new(Receipt)
 	if err := c.BodyParser(receipt); err != nil {
 		return "N/A", err
+	} else if checkPayload(receipt) != nil {
+
+		return "N/A", checkPayload(receipt)
 	}
-	checkPayload(receipt)
+
 	id := uuid.New()
-	// fmt.Println(id.String())
+
 	return id.String(), nil
 }
