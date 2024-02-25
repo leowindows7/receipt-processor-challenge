@@ -26,15 +26,12 @@ var receiptsMap map[string]Receipt = make(map[string]Receipt)
 
 func checkPayload(receipt *Receipt) error {
 	receiptStruct := reflect.Indirect(reflect.ValueOf(receipt))
-	// types := receiptStruct.Type()
 	numFields := receiptStruct.NumField()
 	for i := 0; i < numFields; i++ {
 		if receiptStruct.Field(i).Interface() == "" {
 
 			return errors.New("please check your payload, missing required fields")
 		}
-
-		// fmt.Println(types.Field(i).Name, receiptStruct.Field(i))
 	}
 
 	return nil
@@ -56,6 +53,5 @@ func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 	for key, _ := range receiptsMap {
 		fmt.Println(key)
 	}
-
 	return idStr, nil
 }
