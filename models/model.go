@@ -55,3 +55,14 @@ func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 	}
 	return idStr, nil
 }
+
+func PointsCalculator(id string) (int64, error) {
+	receiptToCheck, ok := receiptsMap[id]
+	if ok {
+		fmt.Println(receiptToCheck)
+	} else {
+		return -1, errors.New("id not exists")
+	}
+	return 100, nil
+
+}
