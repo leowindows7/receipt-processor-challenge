@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("server up!")
+	fmt.Println("server is happy!")
 	app := fiber.New()
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
