@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"math"
 	"reflect"
 	"strconv"
 
@@ -108,19 +109,15 @@ func PointsCalculator(id string) (int, error) {
 		case "Retailer":
 			retailerName := field.Interface().(string)
 			retailerPoints := ruleRetailerName(retailerName)
-			fmt.Printf("%d points from Retailer Name: %s\n", retailerPoints, retailerName)
 			points += retailerPoints
 		case "PurchaseDate":
-			// fmt.Println(fieldType.Name)
 			fmt.Println(field.Interface())
 		case "PurchaseTime":
-			// fmt.Println(fieldType.Name)
 			fmt.Println(field.Interface())
 		case "Total":
-			// fmt.Println(fieldType.Name)
-
-			// points += ruleRoundDollar(field.Interface().(string))
-			fmt.Println(field.Interface())
+			totalStr := field.Interface().(string)
+			totalVal, _ := strconv.ParseFloat(totalStr, 64)
+			points += ruleTotal(totalVal)
 		case "Items":
 			// fmt.Println(fieldType.Name)
 			fmt.Println(field.Interface())
@@ -136,21 +133,25 @@ func PointsCalculator(id string) (int, error) {
 
 // One point for every alphanumeric character in the retailer name.
 func ruleRetailerName(name string) int {
-	return len(name)
+	nameLength := len(name)
+	fmt.Printf("%d points from retailer name: %s\n", nameLength, name)
+	return nameLength
 }
 
 // 50 points if the total is a round dollar amount with no cents.
-func ruleRoundDollar(total float64) int {
-
-	// if totalInFloat == math.Round(totalInFloat) {
-	// 	return 50
-	// }
-	return 0
+// 25 points if the total is a multiple of 0.25.
+func ruleTotal(total float64) int {
+	pointReturn := 0
+	if total == math.Round(total) {
+		fmt.Println("50 points for total is a round dollar amount")
+		pointReturn += 50
+	}
+	if math.Mod(total*100, 25) == 0 {
+		fmt.Println("25 points for total is a multiple of 0.25")
+		pointReturn += 25
+	}
+	return pointReturn
 }
-
-// func ruleTotalMultipleOf25(name string) int64 {
-// 	return 0
-// }
 
 // func ruleEveryTwoItems(name string) int64 {
 // 	return 0
