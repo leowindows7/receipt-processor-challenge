@@ -58,11 +58,55 @@ func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 
 func PointsCalculator(id string) (int64, error) {
 	receiptToCheck, ok := receiptsMap[id]
-	if ok {
-		fmt.Println(receiptToCheck)
-	} else {
+	if !ok {
 		return -1, errors.New("id not exists")
 	}
+	receiptStruct := reflect.ValueOf(receiptToCheck)
+	numFields := receiptStruct.NumField()
+	for i := 0; i < numFields; i++ {
+		fieldName := receiptStruct.Type().Field(i).Name
+		switch fieldName {
+		case "Retailer":
+			fmt.Println(fieldName)
+		case "PurchaseDate":
+			fmt.Println(fieldName)
+		case "PurchaseTime":
+			fmt.Println(fieldName)
+		case "Total":
+			fmt.Println(fieldName)
+		case "Items":
+			fmt.Println(fieldName)
+		}
+
+	}
+	fmt.Println(receiptToCheck)
 	return 100, nil
 
 }
+
+// func ruleRetailerName(name string) int64 {
+// 	return 0
+// }
+
+// func ruleRoundDollar(name string) int64 {
+// 	return 0
+// }
+
+// func ruleTotalMultipleOf25(name string) int64 {
+// 	return 0
+// }
+
+// func ruleEveryTwoItems(name string) int64 {
+// 	return 0
+// }
+// func ruleItemDescriptionLength(name string) int64 {
+
+// 	return 0
+// }
+// func rulePurchaseDate(name string) int64 {
+// 	return 0
+// }
+
+// func ruleTimeOfPurchase(name string) int64 {
+// 	return 0
+// }
