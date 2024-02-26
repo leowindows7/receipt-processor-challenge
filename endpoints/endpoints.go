@@ -14,3 +14,14 @@ func ProcessRecipts(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"id": id})
 
 }
+
+func GetPoints(c *fiber.Ctx) error {
+	id := c.Params("id")
+	points, err := models.PointsCalculator(id)
+
+	if err != nil {
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"points": points})
+}
