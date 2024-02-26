@@ -1,5 +1,17 @@
 # Get Started
 
+- Please ensure Go (version 1.15 or later) is installed
+- Clone this repo to your local machine
+- To start, simply run below comments:
+
+```bash
+go run main.go
+```
+
+- "Server is happy!" will be displayed at CLI when it's up
+- Server listens on port 3000
+- Thank you for sharing this exercise!
+
 # Receipt Processor
 
 Build a webservice that fulfils the documented API. The API is described below. A formal definition is provided
