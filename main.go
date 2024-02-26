@@ -10,7 +10,6 @@ import (
 func main() {
 	fmt.Println("server is happy!")
 	app := fiber.New()
-	app.Listen(":3000")
 	// test Get when server is up
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
@@ -19,5 +18,6 @@ func main() {
 	appGroup := app.Group("/receipts")
 	appGroup.Post("/process", endpoints.ProcessRecipts)
 	appGroup.Get("/:id/points", endpoints.GetPoints)
+	app.Listen(":3000")
 
 }
