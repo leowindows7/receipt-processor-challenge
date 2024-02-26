@@ -141,16 +141,8 @@ func PointsCalculator(id string) (int, error) {
 func ruleRetailerName(name string) int {
 	nameRegExp := regexp.MustCompile(`[a-zA-Z0-9]+`)
 	nameCompiled := nameRegExp.ReplaceAllString(name, "")
-	fmt.Println(nameCompiled)
-	fmt.Println(name)
-	pointsName := 0
-	if len(name)-len(nameCompiled) == 0 {
-		pointsName = len(name) - len(nameCompiled)
-		fmt.Printf("%d points for %s contains non-alphanumeric characters\n", pointsName, name)
-	} else {
-		pointsName = len(name)
-		fmt.Printf("%d points for regular retailer name %s\n", pointsName, name)
-	}
+	pointsName := len(name) - len(nameCompiled)
+	fmt.Printf("%d points for retailer name %s\n", pointsName, name)
 	return pointsName
 }
 
