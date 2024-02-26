@@ -29,8 +29,8 @@ type Receipt struct {
 
 var receiptsMap map[string]Receipt = make(map[string]Receipt)
 
+// payload validation, empty fields or entry with incorrect formats will be errored out
 func checkPayload(receipt *Receipt) error {
-
 	receiptVal := reflect.Indirect(reflect.ValueOf(receipt))
 	receiptType := receiptVal.Type()
 	for i := 0; i < receiptType.NumField(); i++ {
@@ -80,7 +80,8 @@ func checkPayload(receipt *Receipt) error {
 	return nil
 }
 
-// process receipt, validate payload in func checkPayload
+// process receipts, validate payload in func checkPayload
+// once a receipt is validated and processed an id will be generated accordingly
 func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 	receipt := new(Receipt)
 	if err := c.BodyParser(receipt); err != nil {
@@ -96,7 +97,8 @@ func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 	return idStr, nil
 }
 
-// calculate points, by this steps, all receipt stored in map should contain valid entry
+// calculate reward points. by this steps, all receipts stored in map should already contain valid entries
+// rule functions is assigned to each field to calculate eligible reward points
 func PointsCalculator(id string) (int, error) {
 	receiptToCheck, ok := receiptsMap[id]
 	if !ok {
