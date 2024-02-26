@@ -80,6 +80,7 @@ func checkPayload(receipt *Receipt) error {
 	return nil
 }
 
+// process receipt, validate payload in func checkPayload
 func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 	receipt := new(Receipt)
 	if err := c.BodyParser(receipt); err != nil {
@@ -95,6 +96,7 @@ func ReceiptsProcessor(c *fiber.Ctx) (string, error) {
 	return idStr, nil
 }
 
+// calculate points, by this steps, all receipt stored in map should contain valid entry
 func PointsCalculator(id string) (int, error) {
 	receiptToCheck, ok := receiptsMap[id]
 	if !ok {
@@ -136,6 +138,19 @@ func PointsCalculator(id string) (int, error) {
 	fmt.Printf("%d points rewarded!\n", points)
 	return points, nil
 }
+
+/*
+	Begining of rule functions, 7 rules are implemented in following 5 rule functions
+	1. One point for every alphanumeric character in the retailer name. (func ruleRetailerName)
+	2. 50 points if the total is a round dollar amount with no cents. (func ruleTotal)
+	3. 25 points if the total is a multiple of 0.25. (func ruleTotal)
+	4. 5 points for every two items on the receipt. (func ruleItemPurchased)
+	5. If the trimmed length of the item description is a multiple of 3, multiply the price by 0.2 and
+	   round up to the nearest integer. The result is the number of points earned. (func ruleItemPurchased)
+	6. 6 points if the day in the purchase date is odd. (func rulePurchaseDate)
+	7. 10 points if the time of purchase is after 2:00pm and before 4:00pm. (func ruleTimeOfPurchase)
+
+*/
 
 // One point for every alphanumeric character in the retailer name.
 func ruleRetailerName(name string) int {
