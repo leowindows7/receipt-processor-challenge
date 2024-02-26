@@ -1,4 +1,4 @@
-# Get Started
+# Getting Started
 
 - Please ensure Go (version 1.15 or later) is installed
 - Clone this repo to your local machine
@@ -12,31 +12,9 @@ go run main.go
 - Server listens on port 3000
 - Thank you for sharing this exercise!
 
-# Receipt Processor
+# Summary of API Specification
 
-Build a webservice that fulfils the documented API. The API is described below. A formal definition is provided
-in the [api.yml](./api.yml) file, but the information in this README is sufficient for completion of this challenge. We will use the
-described API to test your solution.
-
-Provide any instructions required to run your application.
-
-Data does not need to persist when your application stops. It is sufficient to store information in memory. There are too many different database solutions, we will not be installing a database on our system when testing your application.
-
-## Language Selection
-
-You can assume our engineers have Go and Docker installed to run your application. Go is our preferred language, but it is not a requirement for this exercise.
-
-If you are using a language other than Go, the engineer evaluating your submission may not have an environment ready for your language. Your instructions should include how to get an environment in any OS that can run your project. For example, if you write your project in Javascript simply stating to "run `npm start` to start the application" is not sufficient, because the engineer may not have NPM. Providing a docker file and the required docker command is a simple way to satisfy this requirement.
-
-## Submitting Your Solution
-
-Provide a link to a public repository, such as GitHub or BitBucket, that contains your code to the provided link through Greenhouse.
-
----
-
-## Summary of API Specification
-
-### Endpoint: Process Receipts
+## Endpoint: Process Receipts
 
 - Path: `/receipts/process`
 - Method: `POST`
