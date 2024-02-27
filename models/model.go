@@ -27,6 +27,12 @@ type Receipt struct {
 	Items        []Item `json:"items"`
 }
 
+var (
+	RegexRetailName  = regexp.MustCompile(`^[\w\s\-]+$`)
+	RegexDescription = regexp.MustCompile(`^[\w\s\-]+$`)
+	RegexPrice       = regexp.MustCompile(`^\d+\.\d{2}$`)
+)
+
 var receiptsMap map[string]Receipt = make(map[string]Receipt)
 
 // payload validation, empty fields or entry with incorrect formats will be errored out
@@ -41,6 +47,8 @@ func checkPayload(receipt *Receipt) error {
 			retailerName := field.Interface().(string)
 			if retailerName == "" {
 				return errors.New("retailer name should not be empty")
+			} else if !RegexRetailName.MatchString(retailerName) {
+				return errors.New("retailer name is not in correct format")
 			}
 		case "PurchaseDate":
 			purchaseDate := field.Interface().(string)
@@ -59,6 +67,8 @@ func checkPayload(receipt *Receipt) error {
 			_, err := strconv.ParseFloat(total, 64)
 			if err != nil {
 				return errors.New("total should be entered as string in valid float format")
+			} else if !RegexPrice.MatchString(total) {
+				return errors.New("invalid total format")
 			}
 
 		case "Items":
@@ -70,6 +80,8 @@ func checkPayload(receipt *Receipt) error {
 				_, err := strconv.ParseFloat(item.Price, 64)
 				if err != nil {
 					return errors.New("at least one of items does not have valid price entry")
+				} else if !RegexDescription.MatchString(item.ShortDescription) {
+					return errors.New("at least one of items does not have valid short description")
 				}
 			}
 		default:
