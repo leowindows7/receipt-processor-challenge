@@ -20,7 +20,7 @@ func GetPoints(c *fiber.Ctx) error {
 	points, err := models.PointsCalculator(id)
 
 	if err != nil {
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	return c.JSON(fiber.Map{"points": points})
