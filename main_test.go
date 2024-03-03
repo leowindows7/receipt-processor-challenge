@@ -19,7 +19,7 @@ func TestGetPoints(t *testing.T) {
 	app := fiber.New()
 	app.Get("/receipts/:id/points", endpoints.GetPoints)
 
-	// Define test cases, using initializer func() to return expeceted ID
+	// Define test cases, using initializer func() to return expeceted ID/status code
 	testCases := []struct {
 		description  string
 		initializer  func() string
