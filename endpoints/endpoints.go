@@ -18,7 +18,6 @@ func ProcessRecipts(c *fiber.Ctx) error {
 func GetPoints(c *fiber.Ctx) error {
 	id := c.Params("id")
 	points, err := models.PointsCalculator(id)
-
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}

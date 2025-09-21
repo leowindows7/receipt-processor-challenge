@@ -215,6 +215,7 @@ func ruleTimeOfPurchase(purchaseTime time.Time) int {
 // multiply the price by 0.2 and round up to the nearest integer.
 // The result is the number of points earned.
 func ruleItemPurchased(itemList []Item) int {
+
 	totalNumOfItem := len(itemList)
 	pointsTotalItem := totalNumOfItem / 2 * 5
 	fmt.Printf("%d points for purchasing %d item(s)\n", pointsTotalItem, totalNumOfItem)
@@ -230,4 +231,25 @@ func ruleItemPurchased(itemList []Item) int {
 		}
 	}
 	return pointsTotalItem + pointsTrimmedLength
+}
+
+func hashItem(itemToHash Item) string {
+
+	s := []string{itemToHash.ShortDescription, itemToHash.Price}
+	return strings.Join(s, ",")
+}
+
+func ruleAllUniqueItems(itemList []Item) int {
+	// introduce new map to store the item
+	// check whether the item isfound, if found -> not uniqure, no points
+	var tmpMap map[string]Item = make(map[string]Item)
+	// hashfunc for receiptVal
+	for _, item := range itemList {
+		hashVal := hashItem(item)
+		if _, ok := tmpMap[hashVal]; ok {
+			return 0
+		}
+		tmpMap[hashVal] = item
+	}
+	return 5 * len(itemList)
 }
